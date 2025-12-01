@@ -3,11 +3,10 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @Entity({ name: 'persons' })
 export class Persons {
 
-
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ unique: true })
+    @Column()
     username: string;
 
     @Column()
@@ -16,8 +15,9 @@ export class Persons {
     @Column()
     matricula: string;
 
-    @Column({ default: new Date() })
+    @Column({ type: 'varchar', default: 'aluno' })
+    tipo: 'aluno' | 'professor';
+
+    @Column({ default: () => "CURRENT_TIMESTAMP" })
     criadoEm: Date;
-
-
 }

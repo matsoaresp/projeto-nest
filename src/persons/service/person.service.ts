@@ -14,25 +14,25 @@ export class PersonService {
     ) { }
 
 
-    getPersons () {
+    getPersons() {
         return this.personRepository.find();
     }
 
-    async CreatePerson (createPersonDetails: CreatePersonParams){
-        const newPerson = this.personRepository.create({...createPersonDetails, criadoEm: new Date(),    
+    async CreatePerson(createPersonDetails: CreatePersonParams) {
+        const newPerson = this.personRepository.create({
+            ...createPersonDetails,
+            criadoEm: new Date(),
         });
-        await this.personRepository.save(newPerson)
+        return this.personRepository.save(newPerson);
     }
+
 
     async getPersonById(id: number) {
-        return this.personRepository.findOne({where: {id}});
+        return this.personRepository.findOne({ where: { id } });
     }
 
-    deletePersonById(id:number): void {
-        this.personRepository.delete({id});
+    deletePersonById(id: number): void {
+        this.personRepository.delete({ id });
     }
-
-
-
 
 }
