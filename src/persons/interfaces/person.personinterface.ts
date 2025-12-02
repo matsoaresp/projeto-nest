@@ -1,7 +1,7 @@
 export interface Person {
 
     id:number;
-    nome: string;
-    matricula: string;
+    name: string;
     email: string;
+    matricula: string;
 }
