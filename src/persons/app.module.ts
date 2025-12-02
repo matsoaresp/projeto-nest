@@ -12,7 +12,7 @@ import { PersonsModule } from './module/persons.module';
       port: 5432,
       username: 'postgres',
       password: '123456',
-      database: 'nestjs',
+      database: 'biblioteca',
       entities: [Persons],
       synchronize: true,
     }),

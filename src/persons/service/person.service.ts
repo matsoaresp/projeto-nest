@@ -19,12 +19,18 @@ export class PersonService {
     }
 
     async CreatePerson(createPersonDetails: CreatePersonParams) {
-        const newPerson = this.personRepository.create({
-            ...createPersonDetails,
-            criadoEm: new Date(),
-        });
-        return this.personRepository.save(newPerson);
-    }
+    const newPerson = this.personRepository.create({
+        name: createPersonDetails.name,
+        email: createPersonDetails.email,
+        matricula: createPersonDetails.matricula,
+        tipo: createPersonDetails.tipo,
+        criadoEm: new Date(),
+    });
+
+    return this.personRepository.save(newPerson);
+}
+
+
 
 
     async getPersonById(id: number) {
