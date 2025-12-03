@@ -19,7 +19,7 @@ export class PersonController {
 
     @Post('create')
 async createPerson(@Body() createPersonDto: CreateDto) {
-  console.log('BODY RECEBIDO:', createPersonDto);
+  console.log('BODY RECEBIDOs:', createPersonDto);
   
   try {
     const response = await this.personService.CreatePerson(createPersonDto);
