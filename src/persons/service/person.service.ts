@@ -19,20 +19,21 @@ export class PersonService {
     }
 
     async CreatePerson(createPersonDetails: CreatePersonParams) {
-    const newPerson = this.personRepository.create({
-        name: createPersonDetails.name,
-        email: createPersonDetails.email,
-        matricula: createPersonDetails.matricula,
-        tipo: createPersonDetails.tipo,
-        criadoEm: new Date(),
-    });
+        const newPerson = this.personRepository.create({
+            name: createPersonDetails.name,
+            email: createPersonDetails.email,
+            matricula: createPersonDetails.matricula,
+            password: createPersonDetails.password,
+            tipo: createPersonDetails.tipo,
+            criadoEm: new Date(),
+        });
+        return this.personRepository.save(newPerson);
+    }
 
-    return this.personRepository.save(newPerson);
-}
 
-    async findOne (email: string): Promise<Persons | null>{
+    async findOne(email: string): Promise<Persons | null> {
         return this.personRepository.findOne({
-            where: {email},
+            where: { email },
 
         });
     }
