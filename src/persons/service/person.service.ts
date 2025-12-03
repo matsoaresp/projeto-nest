@@ -30,7 +30,12 @@ export class PersonService {
     return this.personRepository.save(newPerson);
 }
 
+    async findOne (email: string): Promise<Persons | null>{
+        return this.personRepository.findOne({
+            where: {email},
 
+        });
+    }
 
 
     async getPersonById(id: number) {

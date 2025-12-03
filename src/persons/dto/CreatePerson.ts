@@ -14,6 +14,10 @@ export class CreateDto {
   @IsString()
   matricula: string;
 
+  @IsNotEmpty()
+  @IsString()
+  password: string;
+
   @IsEnum(TipoPessoa)
   tipo: TipoPessoa;
 }
