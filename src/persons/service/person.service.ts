@@ -19,11 +19,29 @@ export class PersonService {
     }
 
     async CreatePerson(createPersonDetails: CreatePersonParams) {
+<<<<<<< Updated upstream
         const newPerson = this.personRepository.create({
             ...createPersonDetails,
             criadoEm: new Date(),
         });
         return this.personRepository.save(newPerson);
+=======
+    const newPerson = this.personRepository.create({
+        name: createPersonDetails.name,
+        email: createPersonDetails.email,
+        matricula: createPersonDetails.matricula,
+        tipo: createPersonDetails.tipo,
+        criadoEm: new Date(),
+    });
+
+    return this.personRepository.save(newPerson);
+}
+
+    async findOne(email: string): Promise<Persons | null>{
+        return this.personRepository.findOne({
+            where:{email}
+        });
+>>>>>>> Stashed changes
     }
 
 

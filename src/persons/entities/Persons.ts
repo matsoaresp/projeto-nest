@@ -15,6 +15,9 @@ export class Persons {
     @Column()
     matricula: string;
 
+    @Column()
+    password: string;
+
     @Column({ type: 'varchar', default: 'aluno' })
     tipo: 'aluno' | 'professor';
 
