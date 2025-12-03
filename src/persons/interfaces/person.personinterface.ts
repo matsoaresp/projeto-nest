@@ -4,4 +4,5 @@ export interface Person {
     name: string;
     email: string;
     matricula: string;
+    password: string;
 }
