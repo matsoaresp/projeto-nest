@@ -4,6 +4,8 @@ import { AuthService } from '../services/auth.service';
 import { PersonsModule } from 'src/persons/module/persons.module';
 import { jwtConstants } from '../constants/constants';
 import { JwtModule } from '@nestjs/jwt';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Persons } from 'src/persons/entities/Persons';
 
 @Module({
   imports: [
@@ -18,4 +20,4 @@ import { JwtModule } from '@nestjs/jwt';
   providers: [AuthService],
   exports: [AuthService],
 })
-export class AuthModule { }
+export class AuthModule {}
