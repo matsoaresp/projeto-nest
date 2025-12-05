@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from "typeorm";
 import { Persons } from "../entities/Persons";
@@ -11,28 +11,40 @@ export class PersonService {
     constructor(
         @InjectRepository(Persons)
         private readonly personRepository: Repository<Persons>,
-    ) {}
+    ) { }
 
     // Retorna todas as pessoas
-    getPersons() {
-        return this.personRepository.find();
+    async getPersons() {
+        try {
+            return await this.personRepository.find();
+        } catch (error) {
+            throw new InternalServerErrorException("Erro ao buscar todos os usuarios", error.message)
+        }
+
     }
 
     // Cria uma nova pessoa com a senha hashada
     async CreatePerson(createPersonDetails: CreatePersonParams) {
-        // Hash da senha
-        const hashedPassword = await bcrypt.hash(createPersonDetails.password, 10);
 
-        const newPerson = this.personRepository.create({
-            name: createPersonDetails.name,
-            email: createPersonDetails.email,
-            matricula: createPersonDetails.matricula,
-            password: hashedPassword, // senha já hashada
-            tipo: createPersonDetails.tipo,
-            criadoEm: new Date(),
-        });
+        try {
+            // Hash da senha
+            const hashedPassword = await bcrypt.hash(createPersonDetails.password, 10);
 
-        return this.personRepository.save(newPerson);
+            const newPerson = this.personRepository.create({
+                name: createPersonDetails.name,
+                email: createPersonDetails.email,
+                matricula: createPersonDetails.matricula,
+                password: hashedPassword, // senha já hashada
+                tipo: createPersonDetails.tipo,
+                criadoEm: new Date(),
+            });
+
+            return this.personRepository.save(newPerson);
+        } catch (error) {
+            throw new InternalServerErrorException("Erro ao criar usuário", error.message)
+        }
+        
+        
     }
 
     // Busca uma pessoa pelo email
@@ -44,11 +56,22 @@ export class PersonService {
 
     // Busca uma pessoa pelo id
     async getPersonById(id: number) {
-        return this.personRepository.findOne({ where: { id } });
+        try {
+            return await this.personRepository.findOne({ where: { id } });
+        } catch (error) {
+            throw new InternalServerErrorException("Erro ao encontrar usuário", error.message)
+        }
+
     }
 
     // Remove pessoa pelo id
     async deletePersonById(id: number): Promise<void> {
-        await this.personRepository.delete({ id });
+
+        try {
+            await this.personRepository.delete({ id });
+        } catch (error) {
+            throw new InternalServerErrorException("Falha ao deletar usuários", error.message)
+        }
+
     }
 }
