@@ -1,10 +1,11 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { PersonService } from 'src/persons/service/person.service';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Persons } from 'src/persons/entities/Persons';
 import * as bcrypt from 'bcrypt';
+import { error } from 'node:console';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +19,8 @@ export class AuthService {
 
   // Valida email e senha, retorna usuário + token
   async validatePerson(email: string, password: string): Promise<any> {
+    try {
+      
     const person = await this.personsService.findOneByEmail(email); // Usando método do service
 
     if (!person) {
@@ -48,5 +51,8 @@ export class AuthService {
       },
       access_token: await this.jwtService.signAsync(payload),
     };
+  }catch (error){
+    throw new InternalServerErrorException("Erro interno no servidor", error.message)
+  }
   }
 }
