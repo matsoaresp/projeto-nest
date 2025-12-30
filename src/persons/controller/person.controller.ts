@@ -1,6 +1,9 @@
-import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Post, Param } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Post, Param, Put } from "@nestjs/common";
 import { PersonService } from "../service/person.service";
 import { CreateDto } from "../dto/CreatePerson";
+import { Person } from "../interfaces/person.personinterface";
+import { Persons } from "../entities/Persons";
+import { UpdatePersonDto } from "../utils/updatePersonDto";
 
 @Controller('persons')
 export class PersonController {
@@ -51,4 +54,15 @@ async createPerson(@Body() createPersonDto: CreateDto) {
         }
     }
 
+    @Put(':id')
+    async updatePerson(
+    @Param('id') id:string, 
+    @Body() data: UpdatePersonDto,) {
+        try{
+            await this.personService.updatePerson(Number(id),data)
+            return {message: 'Update usuary succesfully'}
+        }catch (error){
+            throw new NotFoundException
+        }
+    }
 }

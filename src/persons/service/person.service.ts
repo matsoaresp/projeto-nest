@@ -17,7 +17,7 @@ export class PersonService {
     async getPersons() {
         try {
             return await this.personRepository.find();
-        } catch (error) {
+        } catch(error) {
             throw new InternalServerErrorException("Erro ao buscar todos os usuarios", error.message)
         }
 
@@ -40,11 +40,11 @@ export class PersonService {
             });
 
             return this.personRepository.save(newPerson);
-        } catch (error) {
+        } catch(error) {
             throw new InternalServerErrorException("Erro ao criar usuário", error.message)
         }
-        
-        
+
+
     }
 
     // Busca uma pessoa pelo email
@@ -58,7 +58,7 @@ export class PersonService {
     async getPersonById(id: number) {
         try {
             return await this.personRepository.findOne({ where: { id } });
-        } catch (error) {
+        } catch(error) {
             throw new InternalServerErrorException("Erro ao encontrar usuário", error.message)
         }
 
@@ -69,9 +69,28 @@ export class PersonService {
 
         try {
             await this.personRepository.delete({ id });
-        } catch (error) {
+        } catch(error) {
             throw new InternalServerErrorException("Falha ao deletar usuários", error.message)
         }
+    }
 
+    async updatePerson(id: number, data: Partial<Persons>): Promise<Persons> {
+        try {
+            await this.personRepository.update(id,data)
+
+            const updatePerson = await this.personRepository.findOne({
+                where: {id},
+            })
+
+            if( !updatePerson){
+                throw new Error('Usuários não encontrado')
+            }
+            return updatePerson
+        }catch(error){
+            throw new InternalServerErrorException(
+                'Erro ao atualizar usuário',
+                error.message
+            );
+        }
     }
 }
