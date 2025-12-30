@@ -36,7 +36,10 @@ export class AuthService {
 
     console.log('[AuthService] Usuário autenticado:', {
       id: person.id,
+      name: person.name,
       email: person.email,
+      matricula: person.matricula,
+      tipo: person.tipo,
     });
 
     // Payload JWT
@@ -45,8 +48,9 @@ export class AuthService {
     return {
       user: {
         id: person.id,
-        email: person.email,
         name: person.name,
+        email: person.email,
+        matricula: person.matricula,
         tipo: person.tipo,
       },
       access_token: await this.jwtService.signAsync(payload),
