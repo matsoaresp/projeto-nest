@@ -54,13 +54,13 @@ async createPerson(@Body() createPersonDto: CreateDto) {
         }
     }
 
-    @Put(':id')
+    @Put('update/:id')
     async updatePerson(
     @Param('id') id:string, 
     @Body() data: UpdatePersonDto,) {
         try{
-            await this.personService.updatePerson(Number(id),data)
-            return {message: 'Update usuary succesfully'}
+            const updatedPerson = await this.personService.updatePerson(Number(id),data)
+            return updatedPerson
         }catch (error){
             throw new NotFoundException
         }
